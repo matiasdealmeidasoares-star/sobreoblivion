@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OBLIVION — Cyber & Security Community</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    body {
+      background-color: #050505;
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+   
+    #matrix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    
+    .app-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 900px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    
+    header {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
+
+    .logo-container img {
+      max-width: 180px;
+      height: auto;
+      filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.4));
+      transition: transform 0.3s ease;
+    }
+
+    .logo-container img:hover {
+      transform: scale(1.05);
+    }
+
+    h1 {
+      color: #ff0000;
+      font-size: 2.5rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+      margin-top: 10px;
+      position: relative;
+    }
+
+    .tagline {
+      color: #888;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      margin-top: 5px;
+    }
+
+    
+    nav {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+      width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: #0d0d0d;
+      color: #888;
+      border: 1px solid #333;
+      padding: 12px 24px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      letter-spacing: 1px;
+      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+      border-color: #ff0000;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+    }
+
+    .tab-btn.active {
+      background: #ff0000;
+      color: #000;
+      border-color: #ff0000;
+      font-weight: 900;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+    }
+
+    
+    .content-section {
+      display: none;
+      width: 100%;
+      background: rgba(15, 15, 15, 0.85);
+      border: 1px solid #222;
+      border-top: 2px solid #ff0000;
+      padding: 30px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      animation: fadeIn 0.4s ease-in-out forwards;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      color: #fff;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2::before {
+      content: '>';
+      color: #ff0000;
+      font-weight: bold;
+    }
+
+    p {
+      color: #ccc;
+      line-height: 1.7;
+      margin-bottom: 15px;
+      font-size: 0.95rem;
+    }
+
+    
+    ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    ul li {
+      background: rgba(255, 0, 0, 0.05);
+      border: 1px solid #333;
+      padding: 10px 15px;
+      color: #fff;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: border-color 0.3s;
+    }
+
+    ul li:hover {
+      border-color: #ff0000;
+    }
+
+    ul li::before {
+      content: '[+]';
+      color: #ff0000;
+      font-size: 0.8rem;
+    }
+
+    
+    .quote-card {
+      background: #000;
+      border: 1px dashed #ff0000;
+      padding: 20px;
+      text-align: center;
+      margin-top: 25px;
+    }
+
+    .quote-card .quote {
+      color: #ff0000;
+      font-weight: bold;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+    }
+
+    .quote-card .subquote {
+      color: #666;
+      font-size: 0.85rem;
+      margin-top: 8px;
+      display: block;
+    }
+
+    
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 15px;
+      background: #ff0000;
+      margin-left: 5px;
+      animation: blink 0.8s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: #444;
+      font-size: 0.8rem;
+      padding-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  
+  <canvas id="matrix"></canvas>
+
+  <div class="app-container">
+
+    <header>
+      <div class="logo-container">
+        <img src="fefd.png" alt="OBVILION Logo">
+      </div>
+      <h1>OBVILION</h1>
+      <div class="tagline">CYBER & SECURITY COMMUNITY<span class="cursor"></span></div>
+    </header>
+
+    
+    <nav>
+      <button class="tab-btn active" onclick="openTab('inicio')">Início</button>
+      <button class="tab-btn" onclick="openTab('sobre')">Sobre Nós</button>
+      <button class="tab-btn" onclick="openTab('recrutamento')">Recrutamento</button>
+    </nav>
+
+    
+    <section id="inicio" class="content-section active">
+      <h2>Bem-vindo ao Sistema</h2>
+      <p>A <strong>OBVILION</strong> é um coletivo voltado para o estudo prático e teórico de tecnologia, arquitetura de redes, sistemas operacionais e cibersegurança[cite: 7].</p>
+      <p>Nossa filosofia baseia-se na formação técnica sólida, na investigação responsável de vulnerabilidades e no compartilhamento contínuo de conhecimento entre entusiastas e pesquisadores.</p>
+      
+      <div class="quote-card">
+        <div class="quote">Knowledge is power. Security is responsibility.</div>
+        <span class="subquote">Aprenda. Analise. Proteja. Evolua.</span>
+      </div>
+    </section>
+
+  
+    <section id="sobre" class="content-section">
+      <h2>Sobre A Obvilion</h2>
+      <p>Obvilion é uma comunidade criada em torno de tecnologia, programação e cibersegurança, com foco em conhecimento, aprendizado e evolução[cite: 7].</p>
+      <p>Mais do que um nome ou uma logo, a Obvilion representa uma mentalidade: <strong>entender antes de agir, aprender antes de testar e proteger aquilo que importa</strong>[cite: 7].</p>
+      <p>Aqui, assuntos como redes, Linux, programação, segurança digital, OSINT, análise de vulnerabilidades e segurança defensiva fazem parte da nossa jornada diária[cite: 7].</p>
+      <p>A proposta é formar pessoas que não dependam apenas de ferramentas prontas, mas que busquem entender como os sistemas funcionam na sua essência, onde estão seus riscos e como podem ser protegidos[cite: 7].</p>
+    </section>
+
+  
+    <section id="recrutamento" class="content-section">
+      <h2>Procuramos Novos Membros</h2>
+      <p>Estamos à procura de mentes curiosas para fortalecer nossa comunidade. Não buscamos apenas especialistas, mas pessoas comprometidas com o aprendizado[cite: 7].</p>
+      
+      <p>Áreas de interesse da comunidade[cite: 7]:</p>
+      <ul>
+        <li>Programação</li>
+        <li>Redes de Computadores</li>
+        <li>Sistemas Linux</li>
+        <li>Cibersegurança</li>
+        <li>OSINT & Investigação</li>
+        <li>Privacidade Digital</li>
+        <li>Segurança Defensiva</li>
+        <li>Laboratórios & CTFs</li>
+      </ul>
+
+      <p><strong>Requisitos:</strong> Experiência é bem-vinda, mas não obrigatória. O que realmente importa é interesse, responsabilidade e vontade constante de evoluir[cite: 7].</p>
+      <p><em>Nota: Valorizamos o conhecimento responsável. Qualquer atividade prática deve ocorrer estritamente em ambientes autorizados e laboratórios próprios[cite: 7].</em></p>
+    </section>
+
+    <footer>
+      &copy; OBLIVION CYBER — Todos os direitos reservados.
+    </footer>
+
+  </div>
+
+  <script>
+
+    function openTab(tabId) {
+      const sections = document.querySelectorAll('.content-section');
+      const buttons = document.querySelectorAll('.tab-btn');
+
+      sections.forEach(section => section.classList.remove('active'));
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+  </script>
+</body>
+</html>

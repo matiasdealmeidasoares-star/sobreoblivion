@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OBLIVION — Cyber & Security Community</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    body {
+      background-color: #080808;
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 40px;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 950px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .status-bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #000;
+      border: 1px solid #222;
+      padding: 8px 15px;
+      font-size: 0.75rem;
+      color: #777;
+      margin-bottom: 25px;
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background-color: #ff0000;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #ff0000;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo-container img {
+      max-width: 170px;
+      height: auto;
+      filter: drop-shadow(0 0 12px rgba(255, 0, 0, 0.3));
+      transition: transform 0.3s ease;
+    }
+
+    .logo-container img:hover {
+      transform: scale(1.03);
+    }
+
+    h1 {
+      color: #ff0000;
+      font-size: 2.4rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
+      margin-top: 12px;
+    }
+
+    .tagline {
+      color: #888;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      margin-top: 6px;
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: #0f0f0f;
+      color: #888;
+      border: 1px solid #222;
+      padding: 10px 18px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 1px;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+      border-color: #ff0000;
+    }
+
+    .tab-btn.active {
+      background: #ff0000;
+      color: #000;
+      border-color: #ff0000;
+      font-weight: 900;
+      box-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
+    }
+
+    .content-section {
+      display: none;
+      width: 100%;
+      background: #0d0d0d;
+      border: 1px solid #222;
+      border-top: 3px solid #ff0000;
+      padding: 30px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.9);
+      animation: fadeIn 0.3s ease-in-out forwards;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      color: #fff;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      border-bottom: 1px solid #222;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2::before {
+      content: '>';
+      color: #ff0000;
+      font-weight: bold;
+    }
+
+    p {
+      color: #ccc;
+      line-height: 1.7;
+      margin-bottom: 15px;
+      font-size: 0.92rem;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .card {
+      background: #121212;
+      border: 1px solid #222;
+      padding: 18px;
+      transition: border-color 0.3s, transform 0.2s;
+    }
+
+    .card:hover {
+      border-color: #ff0000;
+      transform: translateY(-2px);
+    }
+
+    .card h3 {
+      color: #ff0000;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .card p {
+      color: #aaa;
+      font-size: 0.85rem;
+      margin-bottom: 0;
+    }
+
+    ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    ul li {
+      background: #121212;
+      border: 1px solid #222;
+      padding: 10px 14px;
+      color: #eee;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    ul li::before {
+      content: '[+]';
+      color: #ff0000;
+      font-size: 0.8rem;
+    }
+
+    .quote-card {
+      background: #000;
+      border: 1px dashed #ff0000;
+      padding: 20px;
+      text-align: center;
+      margin-top: 25px;
+    }
+
+    .quote-card .quote {
+      color: #ff0000;
+      font-weight: bold;
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+
+    .quote-card .subquote {
+      color: #666;
+      font-size: 0.8rem;
+      margin-top: 6px;
+      display: block;
+    }
+
+    .terminal-box {
+      background: #000;
+      border: 1px solid #222;
+      padding: 15px;
+      font-size: 0.85rem;
+      color: #00ff66;
+      margin-top: 20px;
+      border-left: 3px solid #ff0000;
+    }
+
+    .terminal-box .cmd {
+      color: #ff0000;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 7px;
+      height: 14px;
+      background: #ff0000;
+      margin-left: 4px;
+      animation: blink 0.8s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: #444;
+      font-size: 0.78rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <div class="status-bar">
+      <div class="status-item">
+        <div class="dot"></div>
+        <span>Caçando pdf e pnl</span>
+      </div>
+      <div class="status-item">
+        <span>Acabando com esses lixos</span>
+      </div>
+      <div class="status-item">
+        <span>Estamos: RECRUTANDO</span>
+      </div>
+    </div>
+
+    <header>
+      <div class="logo-container">
+        <img src="fefd.png" alt="OBVILION Logo">
+      </div>
+      <h1>OBVILION</h1>
+      <div class="tagline">CYBER & SECURITY COMMUNITY</div>
+    </header>
+
+    <nav>
+      <button class="tab-btn active" onclick="openTab('inicio')">Início</button>
+      <button class="tab-btn" onclick="openTab('sobre')">Sobre Nós</button>
+      <button class="tab-btn" onclick="openTab('laboratorio')">Projetos & Lab</button>
+      <button class="tab-btn" onclick="openTab('recrutamento')">Recrutamento</button>
+      <button class="tab-btn" onclick="openTab('regras')">Diretrizes</button>
+    </nav>
+
+    <section id="inicio" class="content-section active">
+      <h2>Bem-vindo ao Site oficial Da OBLIVION</h2>
+      <p>A <strong>OBVILION</strong> é um espaço focado no estudo prático e aprofundado de tecnologia, arquitetura de sistemas e cibersegurança.</p>
+      <p>Nossa missão é desenvolver habilidades reais, compreender a estrutura oculta dos sistemas e promover a segurança digital através de pesquisa, análise e prática consciente.</p>
+      
+      <div class="cards-grid">
+        <div class="card">
+          <h3>Investigação & OSINT</h3>
+          <p>Mapeamento de ativos digitais, recolha de informações públicas e análise de presença online.</p>
+        </div>
+        <div class="card">
+          <h3>Segurança Defensiva</h3>
+          <p>Análise de vulnerabilidades, fortalecimento de sistemas (hardening) e proteção de infraestrutura.</p>
+        </div>
+        <div class="card">
+          <h3>Sistemas & Redes</h3>
+          <p>Domínio de distribuições Linux, protocolos de rede, automação de tarefas e scripts personalizados.</p>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote">Knowledge is power. Security is responsibility.</div>
+        <span class="subquote">Aprenda. Analise. Proteja. Evolua.</span>
+      </div>
+    </section>
+
+    <section id="sobre" class="content-section">
+      <h2>Sobre a Obvilion</h2>
+      <p>Obvilion é uma comunidade criada em torno de tecnologia, programação e cibersegurança, com foco em conhecimento, aprendizado e evolução constante.</p>
+      <p>Mais do que um nome ou uma logo, a Obvilion representa uma mentalidade: <strong>entender antes de agir, aprender antes de testar e proteger aquilo que importa</strong>.</p>
+      <p>Aqui, tópicos como redes de computadores, Linux, programação, segurança digital, OSINT, análise de falhas e segurança defensiva fazem parte da nossa rotina.</p>
+      <p>A nossa proposta é formar pessoas autónomas que não dependam apenas de ferramentas prontas, mas que busquem compreender o funcionamento interno dos sistemas e os seus riscos.</p>
+    </section>
+
+    <section id="laboratorio" class="content-section">
+      <h2>Laboratórios & Foco de Estudo</h2>
+      <p>Dentro do nosso ecossistema, os membros praticam e desenvolvem projetos em ambientes controlados e laboratórios virtuais:</p>
+      
+      <div class="cards-grid">
+        <div class="card">
+          <h3>Laboratórios CTF</h3>
+          <p>Resolução de desafios de "Capture The Flag" com foco em lógica, engenharia reversa e exploração de falhas web.</p>
+        </div>
+        <div class="card">
+          <h3>Ambientes Isolados (Sandboxing)</h3>
+          <p>Estudo de comportamento de malware e tráfego de rede usando ambientes virtuais seguros.</p>
+        </div>
+        <div class="card">
+          <h3>Desenvolvimento de Ferramentas</h3>
+          <p>Criação de scripts em Python, Bash e Go para automação de tarefas de segurança e auditoria.</p>
+        </div>
+      </div>
+
+
+    </section>
+
+    <section id="recrutamento" class="content-section">
+      <h2>Recrutamento de Membros</h2>
+      <p>Estamos à procura de novos membros para fortalecer a nossa comunidade de tecnologia e cibersegurança.</p>
+      <p>Procuramos pessoas interessadas em:</p>
+      <ul>
+        <li>Programação</li>
+        <li>Redes de Computadores</li>
+        <li>Sistemas Linux</li>
+        <li>Cibersegurança</li>
+        <li>OSINT & Investigação</li>
+        <li>Privacidade Digital</li>
+        <li>Segurança Defensiva</li>
+        <li>Laboratórios & CTFs</li>
+      </ul>
+      <p><strong>Perfil desejado:</strong> Experiência é bem-vinda, mas não é obrigatória. O essencial é demonstrar interesse genuíno, responsabilidade e vontade constante de aprender.</p>
+      <p>Se queres evoluir e aprender junto com outras pessoas, a Obvilion está à tua espera.</p>
+    </section>
+
+    <section id="regras" class="content-section">
+      <h2>Diretrizes & Princípios</h2>
+      <p>A comunidade valoriza o respeito, a organização e a partilha ética do conhecimento:</p>
+      
+      <div class="cards-grid">
+        <div class="card">
+          <h3>Ambiente Autorizado</h3>
+          <p>Qualquer atividade prática de testes de segurança deve acontecer estritamente em sistemas próprios ou ambientes com autorização expressa.</p>
+        </div>
+        <div class="card">
+          <h3>Conduta & Respeito</h3>
+          <p>Valorizamos o trabalho em equipa, a entreajuda e o empenho em elevar o nível técnico de todos os membros.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      &copy; OBLIVION CYBER — Todos os direitos reservados.
+    </footer>
+
+  </div>
+
+  <script>
+    function openTab(tabId) {
+      const sections = document.querySelectorAll('.content-section');
+      const buttons = document.querySelectorAll('.tab-btn');
+
+      sections.forEach(section => section.classList.remove('active'));
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+  </script>
+</body>
+</html>
